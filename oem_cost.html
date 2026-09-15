@@ -259,10 +259,22 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
 <script>
 (function(){
   var blue='#1565c0', green='#2e7d32', orange='#ef6c00', red='#c62828', grey='#9aa3b2';
+  var charts=[];
+  function draw(id, opt){
+    var el=document.getElementById(id);
+    if(!el){ console.warn('[chart] 容器缺失:', id); return; }
+    if(typeof echarts==='undefined'){ console.warn('[chart] echarts 未加载'); return; }
+    try{
+      var c=echarts.init(el);
+      c.setOption(opt);
+      charts.push(c);
+    }catch(e){
+      console.error('[chart] 渲染失败:', id, e);
+    }
+  }
 
   // 2. 单片出厂/成本/毛利
-  var cUnit=echarts.init(document.getElementById('cUnit'));
-  cUnit.setOption({
+  draw('cUnit', {
     tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
     grid:{left:60,right:30,top:30,bottom:30},
     xAxis:{type:'category',data:['出厂均价','单片成本','工厂毛利']},
@@ -278,8 +290,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
   });
 
   // 3. 出厂 vs 到手价区间
-  var cPrice=echarts.init(document.getElementById('cPrice'));
-  cPrice.setOption({
+  draw('cPrice', {
     tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
     grid:{left:120,right:40,top:30,bottom:30},
     xAxis:{type:'value',name:'元/片',max:4.2},
@@ -297,8 +308,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
   });
 
   // 4. 3元对账瀑布（6段累加=3.00，首两段合计=出厂价0.69）
-  var cWater=echarts.init(document.getElementById('cWater'));
-  cWater.setOption({
+  draw('cWater', {
     tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:function(a){
       return a[0].name+'：'+(+a[0].value).toFixed(2)+' 元';
     }},
@@ -328,8 +338,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
   });
 
   // 5. 成本构成
-  var cCost=echarts.init(document.getElementById('cCost'));
-  cCost.setOption({
+  draw('cCost', {
     tooltip:{trigger:'item',formatter:'{b}: {c} 亿 ({d}%)'},
     legend:{bottom:0},
     series:[{
@@ -345,8 +354,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
   });
 
   // 6. 毛利率走势
-  var cMargin=echarts.init(document.getElementById('cMargin'));
-  cMargin.setOption({
+  draw('cMargin', {
     tooltip:{trigger:'axis',formatter:'{b}: {c}%'},
     grid:{left:50,right:30,top:30,bottom:30},
     xAxis:{type:'category',data:['2020','2021','2022','2023','2024','2025']},
@@ -359,8 +367,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
   });
 
   // 7. 性能：滑渗量
-  var cPerf=echarts.init(document.getElementById('cPerf'));
-  cPerf.setOption({
+  draw('cPerf', {
     tooltip:{trigger:'axis',axisPointer:{type:'shadow'},formatter:'{b}: {c} ml（越低越好）'},
     grid:{left:90,right:30,top:30,bottom:30},
     xAxis:{type:'value',name:'滑渗量(ml)'},
@@ -376,7 +383,7 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
   });
 
   window.addEventListener('resize',function(){
-    [cUnit,cPrice,cWater,cCost,cMargin,cPerf].forEach(function(c){c.resize();});
+    charts.forEach(function(c){ try{ c.resize(); }catch(_){} });
   });
 })();
 </script>

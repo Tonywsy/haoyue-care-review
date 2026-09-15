@@ -178,7 +178,16 @@ var Fr={},Gr={};var Wr,Hr=function(){function t(t,e,n){var i=this;this._sleepAft
 </div>
 
 <script>
-function mk(id){return echarts.init(document.getElementById(id));}
+function mk(id){
+  var el=document.getElementById(id);
+  if(!el){ console.warn('[chart] 容器缺失:', id); return null; }
+  try{
+    var c=echarts.init(el);
+    var so=c.setOption.bind(c);
+    c.setOption=function(o){ try{ return so(o); }catch(e){ console.error('[chart] setOption失败:', id, e); } };
+    return c;
+  }catch(e){ console.error('[chart] 渲染失败:', id, e); return null; }
+}
 function tip(extra){return Object.assign({trigger:'axis',axisPointer:{type:'shadow'}},extra||{});}
 
 /* 1a price/cost/margin 2024 vs 2025 */
