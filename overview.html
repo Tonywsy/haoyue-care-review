@@ -192,6 +192,25 @@
   .ov-sec-title{font-size:21px;color:#0d47a1;border-left:5px solid #1976d2;padding-left:12px;margin:28px 0 14px;font-weight:800}
   .chart{height:330px !important}
   .backtop{position:fixed;right:18px;bottom:18px;background:#0d47a1;color:#fff;padding:10px 15px;border-radius:24px;text-decoration:none;font-size:13px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:60}
+  /* ===== 高对比覆写：加深次要文字、强化卡片边界 ===== */
+  :root{
+    --bg:#e7ecf5; --card:#ffffff; --ink:#0c1633; --sub:#2c3650; --line:#c7d1e3;
+    --green:#1b5e20; --orange:#9a4d00; --red:#b71c1c; --blue:#0d47a1;
+  }
+  body{color:#11151c;background:var(--bg)}
+  .card,section.card{border:1px solid var(--line);box-shadow:0 2px 6px rgba(13,22,51,.10),0 1px 2px rgba(13,22,51,.08)}
+  .note{border:1px solid rgba(0,0,0,.10);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .note.blue{color:#0e2a55}
+  .note.green{color:#123d18}
+  .safe{color:#7a1f1f}
+  .pill.odm{color:#0d47a1;font-weight:700}
+  .pill.self{color:#6a0a3c;font-weight:700}
+  table.t{border:1px solid var(--line)}
+  table.t th{color:var(--ink);border-bottom:2px solid var(--line)}
+  table.t td{color:#1b2433;border-bottom:1px solid var(--line)}
+  .chart{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 1px 4px rgba(13,22,51,.08);padding:6px}
+  .ov-sec-title{color:var(--ink)}
+  .sub,span[style*="color:#5b"],.muted{color:var(--sub)}
 </style>
 </head>
 <body data-page-node-id="haoyue-overview">
